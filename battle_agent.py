@@ -24,6 +24,16 @@ class BattleAgent(Player):
 		with open("data/sets.json", "r") as f:
 			self.all_sets = json.load(f)
 
+		# Some vibe coded thing so my bot can fight when still hosted on a non-residential server.
+		original_handle = self.ps_client._handle_message
+
+		async def patched_handle(message: str):
+			if "|updateuser|" in message:
+				message = message.replace("|updateuser|‽", "|updateuser| ")
+			await original_handle(message)
+
+		self.ps_client._handle_message = patched_handle
+
 	def choose_move(self, battle):
 		try:
 			if battle.battle_tag not in self.opponent_team:
