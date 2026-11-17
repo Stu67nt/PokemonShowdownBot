@@ -1,3 +1,4 @@
+from poke_env import LocalhostServerConfiguration
 from poke_env.data import GenData
 from poke_env.player import Player
 from poke_env.calc import damage_calc_gen9 as calc_gen9
@@ -13,8 +14,11 @@ It is optimised for gen 9 randoms.
 """
 class BattleAgent(Player):
 
-	def __init__(self):
-		super().__init__(max_concurrent_battles=20)
+	def __init__(self, account_configuration=None, server_configuration=LocalhostServerConfiguration):
+		super().__init__(max_concurrent_battles=20,
+						 account_configuration=account_configuration,
+						 server_configuration=server_configuration,
+						 battle_format="gen9randombattle")
 		self.gen_data = GenData.from_gen(9)
 		self.opponent_team = {}
 		with open("data/sets.json", "r") as f:

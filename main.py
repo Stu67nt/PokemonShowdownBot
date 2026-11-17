@@ -1,19 +1,22 @@
 import asyncio
+import os
+from dotenv import load_dotenv
 from poke_env.data import GenData
 from poke_env.player import SimpleHeuristicsPlayer
 from poke_env.player import MaxBasePowerPlayer
 from battle_agent import BattleAgent
-
+from poke_env.player import RandomPlayer
+from poke_env import AccountConfiguration, ShowdownServerConfiguration
 
 async def main():
-    player_1 = SimpleHeuristicsPlayer(max_concurrent_battles=20)
-    player_2 = BattleAgent()
+    load_dotenv()
+    SHOWDOWN_USERNAME, SHOWDOWN_PASSWORD =os.getenv("SHOWDOWN_USERNAME"), os.getenv("SHOWDOWN_PASSWORD")
+    player = BattleAgent(
+    account_configuration=AccountConfiguration(SHOWDOWN_USERNAME, SHOWDOWN_PASSWORD),
+    server_configuration=ShowdownServerConfiguration)
+    print("Awaiting players...")
+    await player.accept_challenges(None, 10 )
 
-    await player_2.battle_against(player_1, n_battles=1000)
-
-    print(f"Finished battles: {player_1.n_finished_battles}")
-    print(f"Player 1 wins: {player_1.n_won_battles}")
-    print(f"Player 2 wins: {player_2.n_won_battles}")
 
 
 if __name__ == "__main__":
