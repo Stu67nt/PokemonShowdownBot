@@ -15,9 +15,7 @@ async def main():
     account_configuration=AccountConfiguration(SHOWDOWN_USERNAME, SHOWDOWN_PASSWORD),
     server_configuration=ShowdownServerConfiguration)
     print("Awaiting players...")
-    await player.accept_challenges(None, 10 )
-
-
+    await player.accept_challenges(None, 20)
 
 if __name__ == "__main__":
     asyncio.run(main())

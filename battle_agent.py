@@ -182,3 +182,8 @@ class BattleAgent(Player):
 			return pokemon.base_species
 
 		return species
+
+	def _battle_finished_callback(self, battle):
+		super()._battle_finished_callback(battle)
+
+		self.opponent_team.pop(battle.battle_tag, None)
